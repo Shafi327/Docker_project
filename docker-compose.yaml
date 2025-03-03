@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  mongo:
+    image: mongo
+    container_name: mongo_container
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: pass1
+    ports:
+      - "27017:27017"
+    volumes:
+      - /home/shafi-ullah/Desktop/data:/data/db
+      # - /var/lib/docker/volumes:/my_volume
+  express:
+    build: .
+    container_name: testapp_container
+    depends_on:
+      - mongo
+    ports:
+      - "5050:5050"
+    environment:
+      - MONGO_URL=mongodb://root:pass1@mongo_container/users?authSource=admin 
+
+      
